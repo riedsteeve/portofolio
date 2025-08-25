@@ -20,15 +20,30 @@ navLinkElements.forEach(link => {
 });
 
 // Fonction pour afficher l'alerte
-function showAlert() {
-    alert("Mon mail est tout juste en haut ! 😊. Merci de me contacter !");
-}
-        
-// Pour empêcher la soumission automatique du formulaire après l'alerte
-document.getElementById('contact-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Empêche l'envoi du formulaire immédiatement
-    showAlert();
-    // Si vous voulez toujours envoyer le formulaire après l'alerte, décommentez la ligne suivante
-    // setTimeout(() => this.submit(), 500);
+ 
+document.getElementById("contact-form").addEventListener("submit", function(e) {
+    e.preventDefault(); // Empêche le rechargement de la page
+    const form = e.target;
+    fetch(form.action, {
+        method: form.method,
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+    }).then(response => {
+        if (response.ok) {
+            alert("✅ Merci ! Votre message a été envoyé.");
+            form.reset(); // Réinitialise le formulaire
+        } else {
+            alert("❌ Oups, une erreur est survenue. Réessayez plus tard.");
+        }
+    }).catch(error => {
+        alert("❌ Oups, une erreur est survenue. Réessayez plus tard.");
+    });
 });
  
+
+ 
+
+
+
+ 
+
